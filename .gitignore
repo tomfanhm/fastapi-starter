@@ -14,7 +14,7 @@ venv/
 ENV/
 
 # Poetry
-poetry.lock
+# poetry.lock is committed for reproducible builds
 
 # Environment
 .env
