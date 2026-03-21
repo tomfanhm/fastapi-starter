@@ -1,0 +1,62 @@
+[tool.poetry]
+name = "app-starter"
+version = "0.1.0"
+description = "FastAPI production starter with async SQLAlchemy, JWT auth, and Docker"
+authors = ["dev <dev@example.com>"]
+readme = "README.md"
+packages = [{include = "app"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.0"
+uvicorn = {version = "^0.34.0", extras = ["standard"]}
+sqlalchemy = {version = "^2.0.0", extras = ["asyncio"]}
+asyncpg = "^0.30.0"
+alembic = "^1.14.0"
+pydantic = "^2.0.0"
+pydantic-settings = "^2.0.0"
+python-jose = {version = "^3.3.0", extras = ["cryptography"]}
+passlib = {version = "^1.7.4", extras = ["bcrypt"]}
+gunicorn = "^23.0.0"
+python-multipart = "^0.0.18"
+email-validator = "^2.3.0"
+bcrypt = "<4.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+pytest-asyncio = "^0.24.0"
+pytest-cov = "^6.0.0"
+httpx = "^0.28.0"
+ruff = "^0.8.0"
+mypy = "^1.13.0"
+pre-commit = "^4.0.0"
+sqlalchemy = {version = "^2.0.0", extras = ["mypy"]}
+aiosqlite = "^0.22.1"
+types-python-jose = "^3.5.0.20250531"
+types-passlib = "^1.7.7.20260211"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "ANN", "B", "A", "SIM", "TCH", "RUF"]
+ignore = ["B008", "TC001", "TC002", "TC003", "N818"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy", "sqlalchemy.ext.mypy.plugin"]
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
