@@ -28,7 +28,7 @@ async def test_register_duplicate_email(async_client: AsyncClient, test_user: Us
         "/api/v1/auth/register",
         json={
             "email": test_user.email,
-            "password": "somepassword",
+            "password": "somepassword123",
         },
     )
     assert response.status_code == 409
@@ -60,6 +60,15 @@ async def test_login_nonexistent_email(async_client: AsyncClient) -> None:
     """POST /api/v1/auth/login with unknown email should return 401."""
     response = await async_client.post(
         "/api/v1/auth/login",
-        data={"username": "nobody@example.com", "password": "whatever"},
+        data={"username": "nobody@example.com", "password": "whatever1"},
     )
     assert response.status_code == 401
+
+
+async def test_register_short_password(async_client: AsyncClient) -> None:
+    """POST /api/v1/auth/register with short password should return 422."""
+    response = await async_client.post(
+        "/api/v1/auth/register",
+        json={"email": "short@example.com", "password": "abc"},
+    )
+    assert response.status_code == 422

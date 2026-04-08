@@ -1,22 +1,15 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 
 
 class RegisterRequest(BaseModel):
     """Registration request payload."""
 
     email: EmailStr
-    password: str
+    password: str = Field(min_length=8, max_length=128)
     first_name: str | None = None
     last_name: str | None = None
-
-
-class LoginRequest(BaseModel):
-    """Login request payload (for JSON-based login)."""
-
-    email: EmailStr
-    password: str
 
 
 class TokenResponse(BaseModel):

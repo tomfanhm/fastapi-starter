@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import functools
 
+from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+_INSECURE_DEFAULT_KEY = "change-me-to-a-random-secret-key"
 
 
 class Settings(BaseSettings):
@@ -20,7 +23,7 @@ class Settings(BaseSettings):
     database_max_overflow: int = 10
 
     # JWT
-    jwt_secret_key: str = "change-me-to-a-random-secret-key"
+    jwt_secret_key: str = _INSECURE_DEFAULT_KEY
     jwt_algorithm: str = "HS256"
     jwt_access_token_expire_minutes: int = 1440  # 24 hours
 
@@ -31,6 +34,12 @@ class Settings(BaseSettings):
     redis_url: str = "redis://localhost:6379/0"
 
     model_config = SettingsConfigDict(env_file=".env", case_sensitive=False)
+
+    @model_validator(mode="after")
+    def _reject_default_secret_in_prod(self) -> Settings:
+        if self.environment not in ("dev", "test") and self.jwt_secret_key == _INSECURE_DEFAULT_KEY:
+            raise ValueError("jwt_secret_key must be changed from the default for non-dev environments")
+        return self
 
 
 @functools.lru_cache

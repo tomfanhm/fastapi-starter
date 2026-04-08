@@ -1,12 +1,17 @@
 from __future__ import annotations
 
+from typing import Generic, TypeVar
+
 from pydantic import BaseModel
+
+T = TypeVar("T")
 
 
 class HealthResponse(BaseModel):
     """Health check response."""
 
     status: str = "ok"
+    database_connected: bool = True
 
 
 class PaginationParams(BaseModel):
@@ -16,10 +21,10 @@ class PaginationParams(BaseModel):
     limit: int = 20
 
 
-class PaginatedResponse(BaseModel):
+class PaginatedResponse(BaseModel, Generic[T]):
     """Generic paginated response wrapper."""
 
     total: int
     skip: int
     limit: int
-    items: list[dict[str, object]]
+    items: list[T]

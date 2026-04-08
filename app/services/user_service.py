@@ -37,7 +37,7 @@ async def create_user(db: AsyncSession, data: UserCreate, hashed_password: str) 
         last_name=data.last_name,
     )
     db.add(user)
-    await db.commit()
+    await db.flush()
     await db.refresh(user)
     return user
 
@@ -47,6 +47,6 @@ async def update_user(db: AsyncSession, user: User, data: UserUpdate) -> User:
     update_data = data.model_dump(exclude_unset=True)
     for field, value in update_data.items():
         setattr(user, field, value)
-    await db.commit()
+    await db.flush()
     await db.refresh(user)
     return user

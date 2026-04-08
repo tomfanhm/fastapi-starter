@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM python:3.12-slim AS build
+FROM python:3.13-slim AS build
 
 WORKDIR /app
 
@@ -17,9 +17,10 @@ RUN poetry config virtualenvs.in-project true \
 COPY app/ app/
 COPY alembic/ alembic/
 COPY alembic.ini .
+COPY entrypoint.sh .
 
 # Stage 2: Runtime
-FROM python:3.12-slim AS runtime
+FROM python:3.13-slim AS runtime
 
 WORKDIR /app
 
@@ -32,6 +33,7 @@ COPY --from=build /app/.venv .venv
 COPY --from=build /app/app app
 COPY --from=build /app/alembic alembic
 COPY --from=build /app/alembic.ini .
+COPY --from=build /app/entrypoint.sh .
 
 # Add venv to PATH
 ENV PATH="/app/.venv/bin:$PATH"
@@ -41,4 +43,5 @@ USER appuser
 
 EXPOSE 8000
 
+ENTRYPOINT ["./entrypoint.sh"]
 CMD ["gunicorn", "app.main:create_app", "--factory", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]

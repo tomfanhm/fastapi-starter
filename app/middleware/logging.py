@@ -10,7 +10,7 @@ logger = logging.getLogger("app.middleware.logging")
 
 
 class LoggingMiddleware:
-    """Pure ASGI middleware that logs request method, path, client IP, status code, and process time."""
+    """Pure ASGI middleware that logs requests and adds X-Process-Time header."""
 
     def __init__(self, app: ASGIApp) -> None:
         self.app = app
@@ -32,6 +32,10 @@ class LoggingMiddleware:
             nonlocal status_code
             if message["type"] == "http.response.start":
                 status_code = message.get("status", 0)
+                process_time = time.perf_counter() - start_time
+                headers: list[Any] = list(message.get("headers", []))
+                headers.append((b"x-process-time", f"{process_time:.4f}".encode()))
+                message["headers"] = headers
             await send(message)
 
         await self.app(scope, receive, send_wrapper)

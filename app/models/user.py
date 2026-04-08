@@ -31,3 +31,6 @@ class User(Base):
         nullable=False,
     )
     is_active: Mapped[bool] = mapped_column(default=True, server_default="true", nullable=False)
+
+    def __repr__(self) -> str:
+        return f"<User {self.email} role={self.role.value} active={self.is_active}>"

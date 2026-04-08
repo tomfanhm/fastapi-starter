@@ -15,12 +15,11 @@ asyncpg = "^0.30.0"
 alembic = "^1.14.0"
 pydantic = "^2.0.0"
 pydantic-settings = "^2.0.0"
-python-jose = {version = "^3.3.0", extras = ["cryptography"]}
-passlib = {version = "^1.7.4", extras = ["bcrypt"]}
+PyJWT = "^2.9.0"
+bcrypt = "^4.2.0"
 gunicorn = "^23.0.0"
 python-multipart = "^0.0.18"
 email-validator = "^2.3.0"
-bcrypt = "<4.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.0"
@@ -32,8 +31,7 @@ mypy = "^1.13.0"
 pre-commit = "^4.0.0"
 sqlalchemy = {version = "^2.0.0", extras = ["mypy"]}
 aiosqlite = "^0.22.1"
-types-python-jose = "^3.5.0.20250531"
-types-passlib = "^1.7.7.20260211"
+types-PyJWT = "^1.7.0"
 
 [build-system]
 requires = ["poetry-core"]

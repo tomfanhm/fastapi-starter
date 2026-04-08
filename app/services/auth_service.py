@@ -2,9 +2,8 @@ from __future__ import annotations
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.security import create_access_token, hash_password, verify_password
+from app.core.security import create_access_token, hash_password, verify_password_or_dummy
 from app.exceptions.handlers import UnauthorizedException
-from app.models.user import User
 from app.schemas.auth import RegisterRequest, TokenResponse
 from app.schemas.user import UserCreate
 from app.services.user_service import create_user, get_user_by_email
@@ -26,8 +25,11 @@ async def register_user(db: AsyncSession, data: RegisterRequest) -> TokenRespons
 
 async def authenticate_user(db: AsyncSession, email: str, password: str) -> TokenResponse:
     """Authenticate a user by email/password and return a token."""
-    user: User | None = await get_user_by_email(db, email)
-    if user is None or not verify_password(password, user.password_hash):
+    user = await get_user_by_email(db, email)
+    hashed = user.password_hash if user is not None else None
+    if not verify_password_or_dummy(password, hashed):
         raise UnauthorizedException(detail="Invalid email or password")
+    # user is guaranteed non-None here since verify_password_or_dummy returns False for None hash
+    assert user is not None
     token = create_access_token(subject=str(user.id))
     return TokenResponse(access_token=token)
