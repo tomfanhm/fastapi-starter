@@ -1629,33 +1629,6 @@ anyio = ">=3.6.2,<5"
 full = ["httpx (>=0.27.0,<0.29.0)", "itsdangerous", "jinja2", "python-multipart (>=0.0.18)", "pyyaml"]
 
 [[package]]
-name = "types-cryptography"
-version = "3.3.23.2"
-description = "Typing stubs for cryptography"
-optional = false
-python-versions = "*"
-groups = ["dev"]
-files = [
-    {file = "types-cryptography-3.3.23.2.tar.gz", hash = "sha256:09cc53f273dd4d8c29fa7ad11fefd9b734126d467960162397bc5e3e604dea75"},
-    {file = "types_cryptography-3.3.23.2-py3-none-any.whl", hash = "sha256:b965d548f148f8e87f353ccf2b7bd92719fdf6c845ff7cedf2abb393a0643e4f"},
-]
-
-[[package]]
-name = "types-pyjwt"
-version = "1.7.1"
-description = "Typing stubs for PyJWT"
-optional = false
-python-versions = "*"
-groups = ["dev"]
-files = [
-    {file = "types-PyJWT-1.7.1.tar.gz", hash = "sha256:99c1a0d94d370951f9c6e57b1c369be280b2cbfab72c0f9c0998707490f015c9"},
-    {file = "types_PyJWT-1.7.1-py2.py3-none-any.whl", hash = "sha256:810112a84b6c060bb5bc1959a1d229830465eccffa91d8a68eeaac28fb7713ac"},
-]
-
-[package.dependencies]
-types-cryptography = "*"
-
-[[package]]
 name = "typing-extensions"
 version = "4.15.0"
 description = "Backported and Experimental Type Hints for Python 3.9+"
@@ -1987,4 +1960,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "704f1953d8b270d1546b2e394968739996d1a91947939cae969cde5fd7934850"
+content-hash = "b360274b6792767ffa7ebd162938ff52d69517cbb2a552ac38ddf93bcd1e9e20"
