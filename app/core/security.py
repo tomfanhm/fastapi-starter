@@ -33,7 +33,8 @@ def create_access_token(
         expires_delta = timedelta(minutes=settings.jwt_access_token_expire_minutes)
     expire = datetime.now(UTC) + expires_delta
     to_encode: dict[str, Any] = {"sub": subject, "exp": expire}
-    return jwt.encode(to_encode, settings.jwt_secret_key, algorithm=settings.jwt_algorithm)  # type: ignore[return-value]
+    token: str = str(jwt.encode(to_encode, settings.jwt_secret_key, algorithm=settings.jwt_algorithm))
+    return token
 
 
 def verify_token(token: str, settings: Settings | None = None) -> dict[str, Any]:
